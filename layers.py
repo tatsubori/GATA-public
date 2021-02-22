@@ -46,7 +46,7 @@ def NegativeLogLoss(y_pred, y_true, mask=None, smoothing_eps=0.0):
     output = -torch.sum(log_P, dim=1)  # batch
     return output
 
-    
+
 def NLL(y_pred, y_true_onehot, mask=None):
     """
     Shape:
@@ -141,7 +141,7 @@ class H5EmbeddingManager(object):
         f = h5py.File(h5_path, 'r')
         self.W = np.array(f['embedding'])
         print("embedding data type=%s, shape=%s" % (type(self.W), self.W.shape))
-        self.id2word = f['words_flatten'][0].split('\n')
+        self.id2word = f['words_flatten'][0].decode().split('\n')
         self.word2id = dict(zip(self.id2word, range(len(self.id2word))))
 
     def __getitem__(self, item):
@@ -497,7 +497,7 @@ class LSTMCell(torch.nn.Module):
                 h_0 = h_init
             if c_0 is None:
                 c_0 = c_init
-        
+
         if mask_ is None:
             mask_ = torch.ones_like(torch.sum(input_, -1))
             if input_.is_cuda:
@@ -980,7 +980,7 @@ class ScaledDotProductAttention(torch.nn.Module):
 
 
 class SelfAttention(torch.nn.Module):
-    ''' From Multi-Head Attention module 
+    ''' From Multi-Head Attention module
     https://github.com/jadore801120/attention-is-all-you-need-pytorch'''
 
     def __init__(self, block_hidden_dim, n_head, dropout=0.1):
